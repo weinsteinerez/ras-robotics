@@ -3,6 +3,11 @@ import redis
 
 
 class Listener(threading.Thread):
+    """
+    Initiate a subscriber object that is based on a Thread object (even though required calculations are very light
+    we want to implement a scalable foundations). With this object, you can subscribe to channels and listen for
+    messages that get published to them.
+    """
     def __init__(self, channels_sub):
         threading.Thread.__init__(self)
         self.redis = redis.Redis()
@@ -19,6 +24,10 @@ class Listener(threading.Thread):
 
 
 class MsgCalc(Listener):
+    """
+    This object extends Listener capabilities by adding a work and a run functions to the MsgCalc Thread. Work function
+    do the Clac logic and publish the message to desired output channel
+    """
     def __init__(self, channels_sub, channels_pub):
         super(MsgCalc, self).__init__(channels_sub)
         threading.Thread.__init__(self)
